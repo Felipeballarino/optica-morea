@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-/* @custom-variant dark (&:is(.dark *)); */
+@custom-variant dark (&:is(.dark *));
 
 :root {
   --background: oklch(0.12 0.005 250);
@@ -76,7 +76,7 @@
 
 
 @theme inline {
-   --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
+    --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
   --font-mono: 'Geist Mono', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
