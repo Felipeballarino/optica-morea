@@ -1,12 +1,13 @@
 "use client"
 
-import { 
-    MapPin, 
-    Phone, 
-    Mail, 
-    Clock, 
-    Send } from "lucide-react"
-    import { FiInstagram } from "react-icons/fi";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Send
+} from "lucide-react"
+import { FiInstagram } from "react-icons/fi";
 import { useState } from "react"
 import Button from "../ui/Button"
 import Input from "../ui/Input";
@@ -82,7 +83,7 @@ export function Contact() {
 
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-foreground">Otros canales</h3>
-              
+
               <a
                 href="mailto:opticamorea@gmail.com"
                 className="flex items-center gap-4 p-4 bg-background rounded-xl border border-border hover:border-primary/50 transition-colors"
