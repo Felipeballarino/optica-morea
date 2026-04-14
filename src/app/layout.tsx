@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Playfair_Display, Inter } from 'next/font/google'
 // import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
+import { AppProviders } from '@/components/AppProviders'
 
 const playfair = Playfair_Display({ 
   subsets: ["latin"],
@@ -44,7 +45,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${playfair.variable} ${inter.variable} font-sans antialiased`}>
-        {children}
+        <AppProviders>{children}</AppProviders>
         {/* <Analytics /> */}
       </body>
     </html>

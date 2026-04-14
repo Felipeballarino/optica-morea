@@ -1,28 +1,26 @@
 "use client"
 
-import { Glasses } from "lucide-react"
-
-interface Product {
-  id: number
-  name: string
-  brand: string
-  category: string
-  price: number
-  image: string
-}
+import { Glasses, ShoppingCart } from "lucide-react"
+import Button from "@/components/ui/Button"
+import { CatalogProduct } from "@/lib/catalog"
+import { useCart } from "@/lib/cart-store"
 
 interface ProductCardProps {
-  product: Product
+  product: CatalogProduct
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const formatPrice = (price: number) => {
+  const { addToCart } = useCart()
+
+  const formatPrice = (value: number) => {
     return new Intl.NumberFormat("es-AR", {
       style: "currency",
       currency: "ARS",
       minimumFractionDigits: 0,
-    }).format(price)
+    }).format(value)
   }
+
+  const price = product.price
 
   return (
     <div className="group bg-card rounded-xl border border-border overflow-hidden hover:border-primary/50 transition-all duration-300">
@@ -44,8 +42,16 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.category}
         </p>
         <p className="mt-3 text-lg font-semibold text-foreground">
-          {formatPrice(product.price)}
+          {formatPrice(price)}
         </p>
+        <Button
+          className="mt-4 w-full"
+          type="button"
+          onClick={() => addToCart(product, price)}
+        >
+          <ShoppingCart className="h-4 w-4" />
+          Agregar al carrito
+        </Button>
       </div>
     </div>
   )

@@ -1,166 +1,73 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Search, SlidersHorizontal, X } from "lucide-react"
 import { ProductCard } from "./product-card"
 import { FilterSidebar } from "./filter-sidebar"
 import Input from "../ui/Input"
 import Button from "../ui/Button"
-
-// Sample products data
-const products = [
-  {
-    id: 1,
-    name: "Aviator Classic",
-    brand: "Ray-Ban",
-    category: "Anteojos de Sol",
-    price: 185000,
-    image: "/products/rayban-aviator.jpg",
-  },
-  {
-    id: 2,
-    name: "Holbrook",
-    brand: "Oakley",
-    category: "Anteojos de Sol",
-    price: 220000,
-    image: "/products/oakley-holbrook.jpg",
-  },
-  {
-    id: 3,
-    name: "Linea Rossa",
-    brand: "Prada",
-    category: "Anteojos Recetados",
-    price: 350000,
-    image: "/products/prada-linea.jpg",
-  },
-  {
-    id: 4,
-    name: "GG Squared",
-    brand: "Gucci",
-    category: "Anteojos de Sol",
-    price: 420000,
-    image: "/products/gucci-squared.jpg",
-  },
-  {
-    id: 5,
-    name: "Medusa Head",
-    brand: "Versace",
-    category: "Anteojos Recetados",
-    price: 380000,
-    image: "/products/versace-medusa.jpg",
-  },
-  {
-    id: 6,
-    name: "EA4033",
-    brand: "Emporio Armani",
-    category: "Anteojos de Sol",
-    price: 195000,
-    image: "/products/armani-ea4033.jpg",
-  },
-  {
-    id: 7,
-    name: "Champion",
-    brand: "Carrera",
-    category: "Anteojos de Sol",
-    price: 165000,
-    image: "/products/carrera-champion.jpg",
-  },
-  {
-    id: 8,
-    name: "VO5286",
-    brand: "Vogue",
-    category: "Anteojos Recetados",
-    price: 145000,
-    image: "/products/vogue-vo5286.jpg",
-  },
-  {
-    id: 9,
-    name: "Wayfarer",
-    brand: "Ray-Ban",
-    category: "Anteojos de Sol",
-    price: 175000,
-    image: "/products/rayban-wayfarer.jpg",
-  },
-  {
-    id: 10,
-    name: "Frogskins",
-    brand: "Oakley",
-    category: "Anteojos de Sol",
-    price: 180000,
-    image: "/products/oakley-frogskins.jpg",
-  },
-  {
-    id: 11,
-    name: "Acuvue Oasys",
-    brand: "Johnson & Johnson",
-    category: "Lentes de Contacto",
-    price: 45000,
-    image: "/products/acuvue-oasys.jpg",
-  },
-  {
-    id: 12,
-    name: "Air Optix",
-    brand: "Alcon",
-    category: "Lentes de Contacto",
-    price: 52000,
-    image: "/products/air-optix.jpg",
-  },
-  {
-    id: 13,
-    name: "Solucion Multiproposito",
-    brand: "ReNu",
-    category: "Liquidos",
-    price: 12000,
-    image: "/products/renu-solution.jpg",
-  },
-  {
-    id: 14,
-    name: "Estuche Premium",
-    brand: "Optica Morea",
-    category: "Accesorios",
-    price: 8500,
-    image: "/products/case-premium.jpg",
-  },
-  {
-    id: 15,
-    name: "Clubmaster",
-    brand: "Ray-Ban",
-    category: "Anteojos Recetados",
-    price: 195000,
-    image: "/products/rayban-clubmaster.jpg",
-  },
-]
-
-const categories = [
-  "Todos",
-  "Anteojos de Sol",
-  "Anteojos Recetados",
-  "Lentes de Contacto",
-  "Liquidos",
-  "Accesorios",
-]
-
-const brands = [
-  "Todas",
-  "Ray-Ban",
-  "Oakley",
-  "Prada",
-  "Gucci",
-  "Versace",
-  "Emporio Armani",
-  "Carrera",
-  "Vogue",
-  "Johnson & Johnson",
-  "Alcon",
-  "ReNu",
-  "Optica Morea",
-]
+import { useAuth } from "@/lib/auth-store"
+import { CatalogProduct, mapApiProductToCatalog } from "@/lib/catalog"
+import { getProducts } from "@/services/product-services"
+import { getBrands, getGroups } from "@/services/group-services"
+import { hasRequiredApiEnv, requiredApiEnvErrorMessage } from "@/lib/api-routes"
 
 export function CatalogClient() {
+  const { isAuthenticated, isReady } = useAuth()
+  const [products, setProducts] = useState<CatalogProduct[]>([])
+  const [categoriesFromApi, setCategoriesFromApi] = useState<string[]>([])
+  const [brandsFromApi, setBrandsFromApi] = useState<string[]>([])
+  const [loadingProducts, setLoadingProducts] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("Todos")
   const [selectedBrand, setSelectedBrand] = useState("Todas")
   const [showFilters, setShowFilters] = useState(false)
+
+  useEffect(() => {
+    if (!isReady) return
+
+    const loadData = async () => {
+      setLoadingProducts(true)
+
+      const [productsData, groupsData, brandsData] = await Promise.all([
+        getProducts(),
+        getGroups(),
+        getBrands(),
+      ])
+
+      setProducts(productsData.map(mapApiProductToCatalog))
+
+      const normalizedGroups = groupsData
+        .map((item) => item.nombre || item.grupo || "")
+        .filter(Boolean)
+      setCategoriesFromApi(normalizedGroups)
+
+      const normalizedBrands = brandsData
+        .map((item) => item.nombre || item.marca || "")
+        .filter(Boolean)
+      setBrandsFromApi(normalizedBrands)
+
+      setLoadingProducts(false)
+    }
+
+    void loadData()
+  }, [isAuthenticated, isReady])
+
+  const categories = useMemo(
+    () =>
+      ["Todos", ...Array.from(new Set([...categoriesFromApi, ...products.map((p) => p.category)]))],
+    [categoriesFromApi, products],
+  )
+
+  const brands = useMemo(
+    () => ["Todas", ...Array.from(new Set([...brandsFromApi, ...products.map((p) => p.brand)]))],
+    [brandsFromApi, products],
+  )
+
+  const effectiveCategory = categories.includes(selectedCategory)
+    ? selectedCategory
+    : "Todos"
+  const effectiveBrand = brands.includes(selectedBrand) ? selectedBrand : "Todas"
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
@@ -168,12 +75,12 @@ export function CatalogClient() {
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.brand.toLowerCase().includes(searchQuery.toLowerCase())
       const matchesCategory =
-        selectedCategory === "Todos" || product.category === selectedCategory
+        effectiveCategory === "Todos" || product.category === effectiveCategory
       const matchesBrand =
-        selectedBrand === "Todas" || product.brand === selectedBrand
+        effectiveBrand === "Todas" || product.brand === effectiveBrand
       return matchesSearch && matchesCategory && matchesBrand
     })
-  }, [searchQuery, selectedCategory, selectedBrand])
+  }, [effectiveBrand, effectiveCategory, products, searchQuery])
 
   const clearFilters = () => {
     setSearchQuery("")
@@ -197,6 +104,11 @@ export function CatalogClient() {
         <p className="mt-4 text-muted-foreground max-w-2xl">
           Explora nuestra amplia seleccion de anteojos, lentes de contacto y accesorios de las mejores marcas.
         </p>
+        {!hasRequiredApiEnv ? (
+          <p className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            Configuracion faltante: {requiredApiEnvErrorMessage}
+          </p>
+        ) : null}
       </div>
 
       {/* Search and Filter Bar */}
@@ -237,8 +149,8 @@ export function CatalogClient() {
           <FilterSidebar
             categories={categories}
             brands={brands}
-            selectedCategory={selectedCategory}
-            selectedBrand={selectedBrand}
+            selectedCategory={effectiveCategory}
+            selectedBrand={effectiveBrand}
             onCategoryChange={setSelectedCategory}
             onBrandChange={setSelectedBrand}
           />
@@ -250,8 +162,8 @@ export function CatalogClient() {
             <FilterSidebar
               categories={categories}
               brands={brands}
-              selectedCategory={selectedCategory}
-              selectedBrand={selectedBrand}
+              selectedCategory={effectiveCategory}
+              selectedBrand={effectiveBrand}
               onCategoryChange={setSelectedCategory}
               onBrandChange={setSelectedBrand}
             />
@@ -266,7 +178,11 @@ export function CatalogClient() {
             </p>
           </div>
 
-          {filteredProducts.length > 0 ? (
+          {loadingProducts ? (
+            <div className="text-center py-16">
+              <p className="text-muted-foreground">Cargando productos...</p>
+            </div>
+          ) : filteredProducts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />

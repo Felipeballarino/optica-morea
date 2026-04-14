@@ -1,6 +1,9 @@
 import Link from "next/link"
 import {  Mail, MapPin, Phone } from "lucide-react"
 import { FiInstagram } from "react-icons/fi"
+import Image from "next/image"
+import logoOM from "@/assets/logoBocha.png"
+
 
 export function Footer() {
   return (
@@ -10,10 +13,16 @@ export function Footer() {
           {/* Logo y descripcion */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <h1 className="text-6xl">OM</h1>
-              <span className="text-xl tracking-[0.5rem]  text-foreground">
-                OPTICA <br /> MOREA
-              </span>
+              <div className="relative h-16 w-62 object-cover overflow-hidden ">
+                <Image
+                  src={logoOM}
+                  alt="Interior de Optica Morea con exhibicion de anteojos"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                  priority={false}
+                />
+              </div>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Tu optica de confianza. Anteojos recetados, anteojos de sol, lentes de contacto y mas.

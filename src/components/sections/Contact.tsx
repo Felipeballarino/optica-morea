@@ -5,13 +5,16 @@ import {
   Phone,
   Mail,
   Clock,
-  Send
+  Send,
+  AlertTriangleIcon
 } from "lucide-react"
 import { FiInstagram } from "react-icons/fi";
 import { useState } from "react"
 import Button from "../ui/Button"
 import Input from "../ui/Input";
 import Textarea from "../ui/Textarea";
+import { sendEmail } from "@/services/contact-services";
+import { Alert, AlertDescription, AlertTitle } from "../ui/Alert";
 
 const locations = [
   {
@@ -25,17 +28,37 @@ const locations = [
 ]
 
 export function Contact() {
+  const [open, setOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState<"destructive" | "default">("default");
+  const [loading, setLoading] = useState(false);  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle form submission
-    console.log(formData)
-  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true);
+    event.preventDefault();
+    const response = await sendEmail(formData);
+
+    if (response.mensaje === "Correo enviado con éxito") {
+      setAlertMessage("Correo enviado con éxito");
+      setAlertSeverity("default");
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
+    } else {
+      setAlertMessage("Error al enviar el correo. Inténtalo nuevamente.");
+      setAlertSeverity("destructive");
+    }
+    setLoading(false);
+    setOpen(true); // Mostrar alerta
+  };
 
   return (
     <section id="contacto" className="py-24 bg-card">
@@ -113,8 +136,8 @@ export function Contact() {
               </div>
               <div>
                 <p className="font-medium text-foreground">Horario de Atencion</p>
-                <p className="text-muted-foreground text-sm">Lunes a Viernes: 9:00 - 19:00</p>
-                <p className="text-muted-foreground text-sm">Sabados: 9:00 - 13:00</p>
+                <p className="text-muted-foreground text-sm">Lunes a Viernes: 8:30 a 12:30 - 16:00 a 20:00</p>
+                <p className="text-muted-foreground text-sm">Sabados: 9:00 a 12:30 - 16:30 a 20:00</p>
               </div>
             </div>
           </div>
@@ -162,14 +185,23 @@ export function Contact() {
                   className="bg-card border-border resize-none"
                 />
               </div>
-              <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+              <Button loading={loading} type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
                 Enviar Mensaje
                 <Send className="ml-2 h-4 w-4" />
               </Button>
             </form>
+            {open && <Alert variant={alertSeverity} className=" mt-8 max-w-md border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50">
+              <AlertTriangleIcon />
+              <AlertTitle>Envio de mensaje</AlertTitle>
+              <AlertDescription>
+                {alertMessage}
+              </AlertDescription>
+            </Alert>}
           </div>
         </div>
       </div>
+
+
     </section>
   )
 }

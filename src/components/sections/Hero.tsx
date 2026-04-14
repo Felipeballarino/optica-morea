@@ -22,7 +22,7 @@ export function Hero() {
         
         <h1 className=" italic text-4xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-7xl text-balance">
           Tu vision,
-          <span className="text-primary"> nuestra pasion</span>
+          <span className="text-primary opacity-80"> nuestra pasion</span>
         </h1>
         
         <p className="mt-6 text-lg leading-relaxed text-muted-foreground max-w-2xl mx-auto text-pretty">

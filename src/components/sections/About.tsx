@@ -1,4 +1,7 @@
 import { Check, Award, Users, Clock } from "lucide-react"
+import Image from "next/image"
+import interiorPhoto from "@/assets/IMG_9901.jpeg"
+import storefrontPhoto from "@/assets/EXTERIOR.webp"
 
 const features = [
   "Trabajamos con todas las obras sociales",
@@ -48,22 +51,54 @@ export function About() {
             </ul>
           </div>
 
-          {/* Stats */}
-          <div className="bg-card rounded-2xl p-8 border border-border">
-            <div className="grid grid-cols-1 gap-8">
-              {stats.map((stat, index) => (
-                <div key={index} className="flex items-center gap-6">
-                  <div className="shrink-0 w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <stat.icon className="h-8 w-8 text-primary" />
+          {/* Visual + Stats */}
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="relative min-h-[360px] sm:min-h-[420px] overflow-hidden rounded-2xl border border-border sm:row-span-2">
+                <Image
+                  src={interiorPhoto}
+                  alt="Interior de Optica Morea con exhibicion de anteojos"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                  priority={false}
+                />
+              </div>
+              <div className="relative min-h-[200px] overflow-hidden rounded-2xl border border-border">
+                <Image
+                  src={storefrontPhoto}
+                  alt="Frente del local de Optica Morea"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 100vw, 25vw"
+                />
+              </div>
+              <div className="rounded-2xl border border-border bg-card p-6">
+                <p className="text-sm uppercase tracking-widest text-primary">
+                  Nuestros espacios
+                </p>
+                <p className="mt-2 text-muted-foreground leading-relaxed">
+                  Un ambiente moderno y comodo para elegir tus anteojos con tranquilidad.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-card rounded-2xl p-8 border border-border">
+              <div className="grid grid-cols-1 gap-8">
+                {stats.map((stat, index) => (
+                  <div key={index} className="flex items-center gap-6">
+                    <div className="shrink-0 w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <stat.icon className="h-8 w-8 text-primary" />
+                    </div>
+                    <div>
+                      <p className=" text-3xl text-foreground">
+                        {stat.value}
+                      </p>
+                      <p className="text-muted-foreground text-sm">{stat.label}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className=" text-3xl text-foreground">
-                      {stat.value}
-                    </p>
-                    <p className="text-muted-foreground text-sm">{stat.label}</p>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
