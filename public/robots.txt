@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://optica-morea.vercel.app/sitemap.xml

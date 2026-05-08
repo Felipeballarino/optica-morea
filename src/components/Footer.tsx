@@ -16,7 +16,7 @@ export function Footer() {
               <div className="relative h-16 w-62 object-cover overflow-hidden ">
                 <Image
                   src={logoOM}
-                  alt="Interior de Optica Morea con exhibicion de anteojos"
+                  alt="Logo Optica Morea"
                   fill
                   className="object-cover"
                   sizes="(max-width: 640px) 100vw, 50vw"
@@ -34,22 +34,22 @@ export function Footer() {
             <h3 className="text-sm font-semibold text-foreground mb-4">Navegacion</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors py-2 inline-block">
                   Inicio
                 </Link>
               </li>
               <li>
-                <Link href="/catalogo" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/catalogo" className="text-sm text-muted-foreground hover:text-foreground transition-colors py-2 inline-block">
                   Catalogo
                 </Link>
               </li>
               <li>
-                <Link href="/#nosotros" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/#nosotros" className="text-sm text-muted-foreground hover:text-foreground transition-colors py-2 inline-block">
                   Nosotros
                 </Link>
               </li>
               <li>
-                <Link href="/#servicios" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/#servicios" className="text-sm text-muted-foreground hover:text-foreground transition-colors py-2 inline-block">
                   Servicios
                 </Link>
               </li>
@@ -88,7 +88,7 @@ export function Footer() {
               <li>
                 <a 
                   href="mailto:opticamorea@gmail.com" 
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2 py-2"
                 >
                   <Mail className="h-4 w-4 text-primary" />
                   opticamorea@gmail.com
@@ -99,7 +99,7 @@ export function Footer() {
                   href="https://instagram.com/opticamorea" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2 py-2"
                 >
                   <FiInstagram className="h-4 w-4 text-primary" />
                   @opticamorea

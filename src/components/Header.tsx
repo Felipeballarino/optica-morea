@@ -34,7 +34,7 @@ export function Header() {
               <div className="relative h-12 w-48 object-cover overflow-hidden ">
                 <Image
                   src={logoOM}
-                  alt="Interior de Optica Morea con exhibicion de anteojos"
+                  alt="Logo Optica Morea"
                   fill
                   className="object-cover"
                   sizes="(max-width: 640px) 100vw, 50vw"
@@ -64,7 +64,7 @@ export function Header() {
             <Link
               key={item.name}
               href={item.href}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
             >
               {item.name}
             </Link>
@@ -75,7 +75,7 @@ export function Header() {
             <button
               type="button"
               onClick={openCart}
-              className="relative rounded-md border border-border p-2 text-muted-foreground hover:bg-secondary hover:text-foreground"
+              className="relative rounded-md border border-border p-3 text-muted-foreground hover:bg-secondary hover:text-foreground"
               aria-label="Abrir carrito"
             >
               <ShoppingCart className="h-5 w-5" />
@@ -91,7 +91,7 @@ export function Header() {
                 <span className="text-xs text-muted-foreground">
                   Hola, {user?.nombre || user?.usuario || "Cliente"}
                 </span>
-                <Button variant="outline" size="sm" onClick={() => void logout()}>
+                <Button variant="outline" size="default" onClick={() => void logout()}>
                   <LogOut className="h-4 w-4" />
                   Cerrar sesion
                 </Button>
@@ -99,7 +99,7 @@ export function Header() {
             ) : (
               <Button
                 variant="outline"
-                size="sm"
+                size="default"
                 className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
                 onClick={() => setLoginOpen(true)}
               >
@@ -127,7 +127,7 @@ export function Header() {
               <div className="pt-4 space-y-2">
                 <Button
                   variant="outline"
-                  size="sm"
+                  size="default"
                   className="w-full"
                   onClick={() => {
                     openCart()
@@ -141,7 +141,7 @@ export function Header() {
                 {isReady && isAuthenticated ? (
                   <Button
                     variant="outline"
-                    size="sm"
+                    size="default"
                     className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
                     onClick={() => {
                       void logout()
@@ -154,7 +154,7 @@ export function Header() {
                 ) : (
                   <Button
                     variant="outline"
-                    size="sm"
+                    size="default"
                     className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
                     onClick={() => {
                       setLoginOpen(true)

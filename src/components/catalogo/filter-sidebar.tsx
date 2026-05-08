@@ -32,7 +32,7 @@ export function FilterSidebar({
               <button
                 onClick={() => onCategoryChange(category)}
                 className={cn(
-                  "w-full text-left px-3 py-2 rounded-lg text-sm transition-colors",
+                  "w-full text-left px-3 py-3 rounded-lg text-sm transition-colors md:py-2",
                   selectedCategory === category
                     ? "bg-primary/10 text-primary font-medium"
                     : "text-muted-foreground hover:bg-secondary hover:text-foreground"
@@ -56,7 +56,7 @@ export function FilterSidebar({
               <button
                 onClick={() => onBrandChange(brand)}
                 className={cn(
-                  "w-full text-left px-3 py-2 rounded-lg text-sm transition-colors",
+                  "w-full text-left px-3 py-3 rounded-lg text-sm transition-colors md:py-2",
                   selectedBrand === brand
                     ? "bg-primary/10 text-primary font-medium"
                     : "text-muted-foreground hover:bg-secondary hover:text-foreground"

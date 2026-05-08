@@ -57,7 +57,7 @@ export function About() {
               <div className="relative min-h-[360px] sm:min-h-[420px] overflow-hidden rounded-2xl border border-border sm:row-span-2">
                 <Image
                   src={interiorPhoto}
-                  alt="Interior de Optica Morea con exhibicion de anteojos"
+                  alt="Interior del local de Optica Morea con estantes de anteojos"
                   fill
                   className="object-cover"
                   sizes="(max-width: 640px) 100vw, 50vw"

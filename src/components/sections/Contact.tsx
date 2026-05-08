@@ -93,7 +93,7 @@ export function Contact() {
                       <p className="font-medium text-foreground">{location.address}</p>
                       <a
                         href={`tel:${location.phone}`}
-                        className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2 mt-1"
+                        className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2 mt-1 py-2"
                       >
                         <Phone className="h-4 w-4" />
                         {location.phone}

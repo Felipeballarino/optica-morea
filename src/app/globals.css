@@ -124,3 +124,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+@media (max-width: 768px) {
+  a, button, [role="button"] {
+    min-height: 48px;
+    min-width: 48px;
+  }
+
+  a:not(.no-min-touch), button:not(.no-min-touch), [role="button"]:not(.no-min-touch) {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
